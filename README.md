@@ -57,18 +57,18 @@ PSEUDOCODE
 ___________________________________________________________________________________________________________________________________________________________
 
 WHILE simulation is going:\
-  IF silver token has been detected:\
-    IF silver_distance < value:\
-      action_grab_silver()\
-    ELSE:\
-      IF |angle_front| > value:\
-        alignment_with_silver()\
-      ELSE:\
-        drive()\
-  ELIF golden token has been detected:\
-    IF gold_distance > value:\
-      drive()\
-    ELSE:\
-      evaluation_environment()\
+- IF silver token has been detected:\
+  - IF silver_distance < value:\
+     - action_grab_silver()\
+  - ELSE:\
+     - IF |angle_front| > value:\
+       - alignment_with_silver()\
+     - ELSE:\
+       - drive()\
+  - ELIF golden token has been detected:\
+    - IF gold_distance > value:\
+      - drive()\
+    - ELSE:\
+      - evaluation_environment()\
 
 
