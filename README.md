@@ -41,6 +41,15 @@ The robot moves back slightly, after releasing the silver token, before turning 
 
 
 
+STATISTICAL ANALYSIS
+___________________________________________________________________________________________________________________________________________________________
+
+I simply compered this algorithm with the one written by my professor. The analysis goes through the famous t-test since the amount of samples taken was approximately quite small.
+In order to achive a significant result I used MATLAB that provides the command ttest2. For more info see the PDF description of the analysis.
+
+If you are interested in the code, I leave here both GitHub repositories:
+- https://github.com/CarmineD8/python_simulator  (on rt2 branch)
+
 
 FUTURE DEVELOPMENTS
 ___________________________________________________________________________________________________________________________________________________________
