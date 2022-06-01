@@ -315,16 +315,12 @@ def alignment_with_path(minDist_R,rot_y_RMin,codeR,minDist_L,rot_y_LMin,codeL,ro
 
 """ 
 # my idea was to have two dirrent functions for alignment after a curve and for aligning because of a wall but performances are not suffunciently valid especially because of while cicles   	
-
 def alignment_from_wall(minDist_R,rot_y_RMin,codeR,minDist_L,rot_y_LMin,codeL,rot_speed, direction):
-
-
     minDist_R_new,rot_y_RMin_new,codeR_new = minDist_R,rot_y_RMin,codeR
     minDist_L_new,rot_y_LMin_new,codeL_new = minDist_L,rot_y_LMin,codeL
     align_angle = 0
     driving_speed = 100
     lateral_deg = 30
-
     if direction == "RIGHT":
     		align_angle = 110
     		direction1 = "LEFT"
@@ -367,7 +363,6 @@ def alignment_from_wall(minDist_R,rot_y_RMin,codeR,minDist_L,rot_y_LMin,codeL,ro
 			print("al wall left 3")
 			turn(driving_speed,direction2)
 			minDist_L_new,rot_y_LMin_new,codeL_new = find_token_left(lateral_deg)
-
 """
 
 
@@ -420,9 +415,23 @@ def main():
     # let the simulator load... (eliminates startup lag)
     print("Booting...")
     time.sleep(1)
+    f = open("analysis.txt", "a")
+
 
     # main simulator loop
+    count = 0
+    dist_count = 0
+    count_silver = 0
+    cronos = 0
+    start = 0
+    stop = 0
     while(1):
+    	count = count + 1
+    	if count == 700000:
+    		
+    		f.close()
+    		exit()
+    		
     	if boolean_env == False:
     		dist, rot_y, is_silver, codeF = find_token_front(max_search_deg)
 
@@ -433,7 +442,16 @@ def main():
             if dist < d_th:
                 # if token close, grab it
                 action_grab_silver(rot_speed)
-                stop()
+                count_silver = count_silver + 1
+                if count_silver == 1:
+                	start = time.time()
+                	#stop()
+                elif count_silver == 10:
+                	stop = time.time()
+                	cronos = stop - start
+                	
+                	
+                	
             else:
                 # otherwise, turn to face it and drive towards it
                 if abs(rot_y) > max_rot_error_deg:
@@ -443,6 +461,25 @@ def main():
                     print("Driving to silver")
 
         else:
+            
+            dist_count = dist_count + dist
+	    if count%57 == 0 and count_silver < 10:
+	    	avarage = dist_count/count
+	    	f.write(str(avarage) + '\n')
+	        count = 0
+	        dist_count = 0
+	        avarage = 0
+	    elif  count_silver == 10:
+	    	avarage = dist_count/count
+	    	f.write(str(avarage) + '\t\t' + (str(cronos)) + '\n')
+	        count = 0
+	        dist_count = 0
+	        avarage = 0
+	        count_silver = 1
+	        start = time.time()
+	        stop = 0
+	        cronos = 0
+	        
             # if found GOLD token ahead
             if dist > max_obstacle_dist:
                 # drive until too close
@@ -457,5 +494,3 @@ def main():
         time.sleep(0.05)
 
 main()
-
-			            
